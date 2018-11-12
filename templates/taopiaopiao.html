@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/swiper.css" type="text/css">
+    <script src="/static/js/JavaScript.js" type="text/javascript"></script>
+    <script src="/static/js/swiper.js" type="text/javascript"></script>
+    <style type="text/css">
+        p{  width: 180px;
+            margin: 0;
+            padding: 5px 0;
+            color: white;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            /*-o-text-overflow:ellipsis;*/
+            /*-webkit-text-overflow:ellipsis;*/
+            /*-moz-text-overflow:ellipsis;*/
+            white-space:nowrap;
+        }
+        img{
+            width: 220px;
+            height: 300px;
+            /*padding: 0 20px;*/
+        }
+        .swiper-container{
+            width: 100%;
+            height:400px;
+        }
+        .swiper-slide>img{
+            width: 100%;
+            height: 400px;
+        }
+        #model{
+            width: 100%;
+            /*text-align: center;*/
+            /*background: red;*/
+            /*background: url("");*/
+        }
+
+        #content_div{
+            width: 100%;
+            /*background: yellow;*/
+            /*margin:0 100px;*/
+
+        }
+        #icon{
+            border-bottom: #e5e5e5 solid 2px;
+        }
+
+        #icon_left{
+            float: left;
+        }
+        #icon_left>span>button{
+            border:none;
+            background-color: white;
+            font-size: 20px;
+        }
+        #icon_right>span>button{
+            border: none;
+            background-color: white;
+            color: #9c111c;
+            font-size: 15px;
+        }
+        #icon_right{
+            float: right;
+            padding: 3px;
+        }
+        #hot>ul{
+            padding:0 ;
+            margin: 0;
+        }
+        #hot>ul>li{
+            float: left;
+            /*display: inline-block;*/
+            /*width: 220px;*/
+            /*padding: 0;*/
+            position: relative;
+        }
+        #waite>ul>li{
+            float:left;
+            /*display: inline-block;*/
+            position: relative;
+        }
+
+        #waite>ul{
+            display: none;
+        }
+        #all>ul{
+            display: none;
+        }
+        #all>ul>li{
+            float: left;
+            position: relative;
+        }
+        .a_style{
+            width: 220px;
+            height: 30px;
+            /*padding-left: 40px;*/
+            text-align: center;
+            line-height: 30px;
+        }
+        .a_a{
+            color:white;
+            font-size: 18px;
+            /*width: 30px;*/
+        }
+        .content_xq{
+            width: 220px;
+            height: 300px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            /*margin: 5px 0;*/
+            display: none;
+            background: black;
+            opacity: 0.6;
+            /*text-align: center;*/
+
+        }
+        .content_xq p{
+           margin:10px 30px ;
+        }
+        .name{
+            position: absolute;
+            top: 275px;
+            color: white;
+        }
+        a{
+            text-decoration: none;
+        }
+    </style>
+
+
+    <script>
+        //jq的接口
+        $(function () {
+            //url地址
+            let search = '/static/movies.json';
+            let top = 'https://img.alicdn.com/bao/uploaded/';
+            // let wo = '_300*300.jpg';
+            //result是已经处理好的json对象
+            $.get(search,function (result) {
+                // alert(result);
+                let con = 1;
+                for (let content of result.returnValue){
+                    let $ul_hot = $('#hot>ul');
+                    let $ul_waite = $('#waite>ul');
+                    let $ul_all = $('#all>ul');
+
+                    //为查看全部电影
+                    $ul_all.append(
+                        $('<li>').addClass('mli')
+                            .append(
+                                $('<div>').css('position','relative')
+                                    .append($('<img>').attr('src',top+content.poster))
+                                    .append(
+                                        $('<div>').addClass('name').append($('<p>').text(content.showName))
+                                    )
+                            )
+                            .append(
+                                $('<div>').css('background-color','red').addClass("a_style")
+                                    .append($('<a>').attr('href','#').text('选座购票').addClass('a_a'))
+                            )
+                            .append(
+                                $('<div>').addClass('content_xq')
+                                    .append($('<p>').text("导演:"+content.director))
+                                    .append($('<p>').text("主演:"+content.leadingRole))
+                                    .append($('<p>').text("类型:"+content.type))
+                                    .append($('<p>').text("片源:"+content.country))
+                                    .append($('<p>').text("语言:"+content.language))
+                                    .append($('<p>').text("时长:"+content.duration))
+                            )
+                    );
+
+                    //添加正在上映电影
+                    if (con<=5){
+                        $ul_hot.append(
+                            $('<li>').addClass('mli')
+                                .append(
+                                    $('<div>').css('position','relative')
+                                        .append($('<img>').attr('src',top+content.poster))
+                                        .append(
+                                            $('<div>').addClass('name').append($('<p>').text(content.showName))
+                                        )
+                                )
+                                .append(
+                                    $('<div>').css('background-color','red').addClass("a_style")
+                                        .append($('<a>').attr('href','#').text('选座购票').addClass('a_a'))
+                                )
+                                .append(
+                                    $('<div>').addClass('content_xq')
+                                        .append($('<p>').text("导演:"+content.director))
+                                        .append($('<p>').text("主演:"+content.leadingRole))
+                                        .append($('<p>').text("类型:"+content.type))
+                                        .append($('<p>').text("片源:"+content.country))
+                                        .append($('<p>').text("语言:"+content.language))
+                                        .append($('<p>').text("时长:"+content.duration))
+                                )
+                        );
+                        con++
+                    }
+
+
+                    //添加即将上映电影
+                    if (5<con && con<=10){
+
+                        $ul_waite.append(
+                            $('<li>').addClass('mli')
+                                .append(
+                                    $('<div>').css('position','relative').addClass('rimg')
+                                        .append($('<img>').attr('src',top+content.poster))
+                                        .append(
+                                            $('<div>').append($('<p>').text(content.showName).addClass('name'))
+                                        )
+                                )
+                                .append(
+                                    $('<div>').css('background-color','red').addClass("a_style")
+                                        .append($('<a>').attr('href','#').text('选座购票').addClass('a_a'))
+                                )
+                                .append(
+                                    $('<div>').addClass('content_xq')
+                                        .append($('<p>').text("导演:"+content.director))
+                                        .append($('<p>').text("主演:"+content.leadingRole))
+                                        .append($('<p>').text("类型:"+content.type))
+                                        .append($('<p>').text("片源:"+content.country))
+                                        .append($('<p>').text("语言:"+content.language))
+                                        .append($('<p>').text("时长:"+content.duration))
+                                )
+                        );
+                        con++
+                    }
+
+
+
+
+                    }
+
+
+                $('#hot1').click(function (){
+                    $('#waite>ul').hide();
+                    $('#hot>ul').show();
+                    $('#hot1').css('border-bottom','3px solid red');
+                    $('#hot2').css('border','none')
+                });
+
+                $('#hot2').click(function () {
+                    $('#hot>ul').hide();
+                    $('#waite>ul').show();
+                    $('#hot2').css('border-bottom','3px solid red');
+                    $('#hot1').css('border','none')
+                });
+
+                $('li').mouseover(function () {
+                    // let $e = JQuery.children(this);
+                    // $e.last().slideToggle()
+                    $(this).find('.content_xq').stop(true,false).slideDown(100)
+                });
+
+                $('li').mouseout(function () {
+                    // let $e = JQuery.children(this);
+                    // $e.last().slideToggle()
+                    $(this).find('.content_xq').stop(true,false).slideUp(100)
+                });
+
+                $('#hot3').click(function () {
+                    $('#hot>ul').hide();
+                    $('#waite>ul').hide();
+                    $('#all>ul').show();
+                    $('#hot1').css('border','none')
+                    $('#hot2').css('border','none')
+                });
+
+
+
+
+
+
+                })
+            })
+
+    </script>
+
+
+
+</head>
+<body>
+<!--轮播图-->
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="https://gw.alicdn.com/tfs/TB1GRxRfZLJ8KJjy0FnXXcFDpXa-1920-360.jpg" alt=""></div>
+        <div class="swiper-slide"><img src="https://gw.alicdn.com/tfs/TB1GRxRfZLJ8KJjy0FnXXcFDpXa-1920-360.jpg" alt=""></div>
+        <div class="swiper-slide"><img src="https://gw.alicdn.com/tfs/TB1GRxRfZLJ8KJjy0FnXXcFDpXa-1920-360.jpg" alt=""></div>
+    </div>
+    <!-- 如果需要分页器 -->
+    <div class="swiper-pagination"></div>
+
+    <!-- 如果需要导航按钮 -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+
+    <!-- 如果需要滚动条 -->
+    <div class="swiper-scrollbar"></div>
+</div>
+
+
+<div id="model">
+    <div id="content_div">
+        <div id="icon" class="clear">
+            <div id="icon_left">
+                <span>
+                    <button id="hot1">
+                        正在热映
+                    </button>
+                </span>
+                <span>
+                    <button id="hot2">
+                        即将上映
+                    </button>
+                </span>
+            </div>
+            <div id="icon_right">
+                <span>
+                    <button id="hot3">
+                        查看全部 >
+                    </button>
+                </span>
+            </div>
+        </div>
+        <div id="movie_content">
+            <div id="hot">
+                <ul class="clear">
+                    <!--<li>1</li>-->
+                    <!--<li>2</li>-->
+                    <!--<li>3</li>-->
+                    <!--<li>4</li>-->
+                    <!--<li>5</li>-->
+                </ul>
+            </div>
+            <div class="wa"></div>
+            <div id="waite">
+                <ul class="clear">
+
+                </ul>
+            </div>
+            <div class="wa"></div>
+            <div id="all">
+                <ul class="clear">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--//轮播图JS-->
+<script>
+    var mySwiper = new Swiper ('.swiper-container', {
+        direction: 'horizontal', // 垂直切换选项
+        loop: true, // 循环模式选项
+
+        // 如果需要分页器
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+
+        // 如果需要前进后退按钮
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+        // 如果需要滚动条
+        scrollbar: {
+            el: '.swiper-scrollbar',
+        },
+        //自动播放
+        autoplay:true,
+    })
+</script>
+</body>
+</html>
+
